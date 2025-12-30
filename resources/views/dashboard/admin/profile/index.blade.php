@@ -20,6 +20,7 @@
 
         <!-- INFO -->
         <div class="flex-1 space-y-3">
+
             <div>
                 <p class="text-sm text-gray-500">Nama</p>
                 <p class="font-semibold text-gray-800">
@@ -42,16 +43,14 @@
             </div>
 
             <div class="pt-4 flex gap-3">
-                <a href="/dashboard/admin/settings/index"
-                   class="px-4 py-2 text-sm bg-indigo-400 text-white rounded hover:bg-indigo-500">
-                    Settings
-                </a>
-
-                <a href="/dashboard/admin/settings/change_password"
-                   class="px-4 py-2 text-sm border rounded hover:bg-gray-100">
-                    Ganti Password
+                <a
+                    href="/dashboard/admin/settings/index"
+                    class="px-4 py-2 text-sm bg-indigo-400 text-white rounded hover:bg-indigo-500"
+                >
+                    Edit Profil
                 </a>
             </div>
+
         </div>
 
     </div>

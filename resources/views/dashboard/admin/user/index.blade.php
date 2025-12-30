@@ -8,12 +8,23 @@
         Kelola User
     </h1>
 
-    <a href="/dashboard/admin/user/create"
+    <a href="{{ route('user.create') }}"
        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-500 rounded-lg hover:bg-indigo-600">
         + Tambah User
     </a>
 </div>
-
+    @if (session('success'))
+       <script>
+            document.addEventListener('DOMContentLoaded', function() {
+           Swal.fire({
+            title: "Uhuyy!!",
+            text: "sukses",
+            icon: "success",
+            timer: 1500,
+           });
+        });
+       </script>
+    @endif
 <!-- CARD -->
 <div class="bg-white rounded-lg shadow">
 
@@ -30,83 +41,80 @@
             </thead>
 
             <tbody>
-                <!-- USER 1 -->
-                <tr class="bg-white border-b hover:bg-gray-50">
-                    <td class="px-6 py-4 font-medium text-gray-900">
-                        Aulia
-                    </td>
-                    <td class="px-6 py-4">
-                        aulia@email.com
-                    </td>
-                    <td class="px-6 py-4">
-                        <span class="px-3 py-1 text-xs font-semibold text-purple-700 bg-purple-100 rounded-full">
-                            Admin
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 text-center space-x-2">
-                       <a href="/dashboard/admin/user/edit"
-                        class="inline-block px-3 py-1 text-xs text-white bg-yellow-500 rounded hover:bg-yellow-600">
-                           Edit
-                       </a>
-                        <button class="px-3 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600">
-                            Hapus
-                        </button>
-                    </td>
-                </tr>
+                @forelse ($users as $user)
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 font-medium text-gray-900">
+                            {{ $user->name }}
+                        </td>
 
-                <!-- USER 2 -->
-                <tr class="bg-white border-b hover:bg-gray-50">
-                    <td class="px-6 py-4 font-medium text-gray-900">
-                        Budi
-                    </td>
-                    <td class="px-6 py-4">
-                        budi@email.com
-                    </td>
-                    <td class="px-6 py-4">
-                        <span class="px-3 py-1 text-xs font-semibold text-blue-700 bg-blue-100 rounded-full">
-                            Manajer Gudang
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 text-center space-x-2">
-                        <a href="/dashboard/admin/user/edit"
-                            class="inline-block px-3 py-1 text-xs text-white bg-yellow-500 rounded hover:bg-yellow-600">
-                              Edit
-                        </a>
+                        <td class="px-6 py-4">
+                            {{ $user->email }}
+                        </td>
 
-                        <button class="px-3 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600">
-                            Hapus
-                        </button>
-                    </td>
-                </tr>
+                        <td class="px-6 py-4">
+                            @if ($user->role === 'admin')
+                                <span class="px-3 py-1 text-xs font-semibold text-purple-700 bg-green-100 rounded-full">
+                                    Admin
+                                </span>
+                            @elseif ($user->role === 'manajer_gudang')
+                                <span class="px-3 py-1 text-xs font-semibold text-blue-700 bg-blue-100 rounded-full">
+                                    Manajer Gudang
+                                </span>
+                            @else
+                                <span class="px-3 py-1 text-xs font-semibold text-green-700 bg-gray-100 rounded-full">
+                                    Staff Gudang
+                                </span>
+                            @endif
+                        </td>
 
-                <!-- USER 3 -->
-                <tr class="bg-white hover:bg-gray-50">
-                    <td class="px-6 py-4 font-medium text-gray-900">
-                        Siti
-                    </td>
-                    <td class="px-6 py-4">
-                        siti@email.com
-                    </td>
-                    <td class="px-6 py-4">
-                        <span class="px-3 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full">
-                            Staff Gudang
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 text-center space-x-2">
-                        <a href="/dashboard/admin/user/edit"
-                            class="inline-block px-3 py-1 text-xs text-white bg-yellow-500 rounded hover:bg-yellow-600">
-                             Edit
-                        </a>
+                        <td class="px-6 py-4 text-center space-x-2">
+                            <a href="{{ route('user.edit', $user->id) }}"
+                               class="inline-block px-3 py-1 text-xs text-white bg-yellow-500 rounded hover:bg-yellow-600">
+                                Edit
+                            </a>
 
-                        <button class="px-3 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600">
-                            Hapus
-                        </button>
-                    </td>
-                </tr>
+                            <form action="{{ route('user.destroy', $user->id) }}"
+                                  method="POST"
+                                  class="inline-block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button"
+                                    onclick="confirmDelete(this)"
+                                    class="px-3 py-1 text-xs text-white bg-red-500 rounded hover:bg-red-600">
+                                    Hapus
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="px-6 py-4 text-center text-gray-500">
+                            Data user belum tersedia
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
+
         </table>
     </div>
 
 </div>
-
+<script>
+    function confirmDelete(button) {
+        Swal.fire({
+            title: "Apa kamu yakin?",
+            text: "menghapus user ini!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Hapus!",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                button.closest('form').submit();
+            }
+        });
+    }
+</script>
 @endsection

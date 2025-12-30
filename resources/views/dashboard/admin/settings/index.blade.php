@@ -19,37 +19,46 @@
 
             <div>
                 <label class="text-sm text-gray-600">Nama</label>
-                <input type="text"
-                       class="w-full mt-1 px-3 py-2 border rounded focus:ring focus:ring-blue-200"
-                       value="{{ Auth::user()->name ?? '' }}">
+                <input
+                    type="text"
+                    class="w-full mt-1 px-3 py-2 border rounded focus:ring focus:ring-blue-200"
+                    value="{{ Auth::user()->name ?? '' }}"
+                >
             </div>
 
             <div>
                 <label class="text-sm text-gray-600">Email</label>
-                <input type="email"
-                       class="w-full mt-1 px-3 py-2 border rounded focus:ring focus:ring-blue-200"
-                       value="{{ Auth::user()->email ?? '' }}">
+                <input
+                    type="email"
+                    class="w-full mt-1 px-3 py-2 border rounded focus:ring focus:ring-blue-200"
+                    value="{{ Auth::user()->email ?? '' }}"
+                >
             </div>
 
             <div class="md:col-span-2">
                 <label class="text-sm text-gray-600">Foto Profil</label>
-                <input type="file"
-                       class="w-full mt-1 px-3 py-2 border rounded">
+                <input
+                    type="file"
+                    class="w-full mt-1 px-3 py-2 border rounded"
+                >
             </div>
 
-            <!-- Button -->
-        <div class="flex gap-6">
-            <a href="/dashboard/admin/settings/index"
-               class="px-5 py-2 rounded-lg border text-gray-600 hover:bg-gray-100 transition">
-                Batal
-            </a>
+            <!-- BUTTON -->
+            <div class="md:col-span-2 flex gap-6">
+                <a
+                    href="/dashboard/admin/profile/index"
+                    class="px-5 py-2 rounded-lg border text-gray-600 hover:bg-gray-100 transition"
+                >
+                    Batal
+                </a>
 
-            <button
-                type="submit"
-                class="px-6 py-2 bg-indigo-300 text-white rounded-lg hover:bg-indigo-500 transition">
-                Simpan Perubahan
-            </button>
-        </div>
+                <button
+                    type="submit"
+                    class="px-6 py-2 bg-indigo-300 text-white rounded-lg hover:bg-indigo-500 transition"
+                >
+                    Simpan Perubahan
+                </button>
+            </div>
 
         </form>
     </div>
@@ -93,8 +102,10 @@
             </p>
         </div>
 
-        <a href="/dashboard/admin/settings/change_password"
-           class="px-4 py-2 text-sm border rounded hover:bg-gray-100">
+        <a
+            href="/dashboard/admin/settings/change_password"
+            class="px-4 py-2 text-sm border rounded hover:bg-gray-100"
+        >
             Ganti Password
         </a>
     </div>

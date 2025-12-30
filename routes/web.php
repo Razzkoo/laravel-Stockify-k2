@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,22 +94,19 @@ Route::get('/settings/change_password', function () {
         return view('dashboard.admin.stock.create');
     });
 
-    //user
-    Route::get('/user', function () {
-        return view('dashboard.admin.user.index');
-    });
-
-    Route::get('/user/create', function () {
-        return view('dashboard.admin.user.create');
-    });
-
-    Route::get('/user/edit', function () {
-        return view('dashboard.admin.user.edit');
-    });
-
-    Route::get('/laporan', function () {
-        return view('dashboard.admin.laporan.index');
-    });
-
 });
 
+//users
+
+Route::prefix('dashboard/admin')->group(function () {
+    Route::get('/user', [UserController::class, 'index'])->name('user.index');
+    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/user', [UserController::class, 'store'])->name('user.store');
+    Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/user/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+});
+
+//settings and profile
+Route::put('/dashboard/admin/settings', [App\Http\Controllers\SettingsController::class, 'update'])->name('settings.update');
+Route::get('/dashboard/admin/profile/index', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
