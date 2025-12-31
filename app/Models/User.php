@@ -47,7 +47,6 @@ class User extends Authenticatable
     {
         return $this->role === 'staff_gudang';
     }
-
     // Relasi
     public function stockTransactions()
     {
