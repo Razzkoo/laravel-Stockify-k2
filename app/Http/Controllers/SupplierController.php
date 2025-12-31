@@ -7,65 +7,78 @@ use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    // Menampilkan semua supplier
+    /**
+     * Menampilkan daftar supplier
+     */
     public function index()
     {
-        $suppliers = Supplier::all();
-        return response()->json($suppliers);
+        $suppliers = Supplier::latest()->get();
+        return view('dashboard.admin.supplier.index', compact('suppliers'));
     }
 
-    // Menampilkan detail satu supplier berdasarkan ID
-    public function show($id)
+    /**
+     * Menampilkan form tambah supplier
+     */
+    public function create()
     {
-        $supplier = Supplier::find($id);
-        if (!$supplier) {
-            return response()->json(['message' => 'Supplier not found'], 404);
-        }
-        return response()->json($supplier);
+        return view('dashboard.admin.supplier.create');
     }
 
-    // Menyimpan supplier baru
+    /**
+     * Menyimpan supplier baru
+     */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
+        $validated = $request->validate([
+            'name'    => 'required|string|max:255',
             'address' => 'nullable|string',
-            'phone' => 'nullable|string|max:20',
-            'email' => 'nullable|email|max:255',
+            'phone'   => 'nullable|string|max:20',
+            'email'   => 'nullable|email|unique:suppliers,email',
         ]);
 
-        $supplier = Supplier::create($request->all());
-        return response()->json(['message' => 'Supplier created successfully', 'supplier' => $supplier], 201);
+        Supplier::create($validated);
+
+        return redirect()
+            ->route('supplier.index')
+            ->with('success', 'Supplier berhasil ditambahkan');
     }
 
-    // Mengupdate supplier berdasarkan ID
-    public function update(Request $request, $id)
+    /**
+     * Menampilkan form edit supplier
+     */
+    public function edit(Supplier $supplier)
     {
-        $supplier = Supplier::find($id);
-        if (!$supplier) {
-            return response()->json(['message' => 'Supplier not found'], 404);
-        }
+        return view('dashboard.admin.supplier.edit', compact('supplier'));
+    }
 
-        $request->validate([
-            'name' => 'sometimes|required|string|max:255',
+    /**
+     * Update data supplier
+     */
+    public function update(Request $request, Supplier $supplier)
+    {
+        $validated = $request->validate([
+            'name'    => 'required|string|max:255',
             'address' => 'nullable|string',
-            'phone' => 'nullable|string|max:20',
-            'email' => 'nullable|email|max:255',
+            'phone'   => 'nullable|string|max:20',
+            'email'   => 'nullable|email|unique:suppliers,email,' . $supplier->id,
         ]);
 
-        $supplier->update($request->all());
-        return response()->json(['message' => 'Supplier updated successfully', 'supplier' => $supplier]);
+        $supplier->update($validated);
+
+        return redirect()
+            ->route('supplier.index')
+            ->with('success', 'Supplier berhasil diperbarui');
     }
 
-    // Menghapus supplier berdasarkan ID
-    public function destroy($id)
+    /**
+     * Menghapus supplier
+     */
+    public function destroy(Supplier $supplier)
     {
-        $supplier = Supplier::find($id);
-        if (!$supplier) {
-            return response()->json(['message' => 'Supplier not found'], 404);
-        }
-
         $supplier->delete();
-        return response()->json(['message' => 'Supplier deleted successfully']);
+
+        return redirect()
+            ->route('supplier.index')
+            ->with('success', 'Supplier berhasil dihapus');
     }
 }

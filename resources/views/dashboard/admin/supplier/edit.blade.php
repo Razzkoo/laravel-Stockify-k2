@@ -1,18 +1,19 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Tambah Supplier')
+@section('title', 'Edit Supplier')
 
 @section('content')
 
 <div class="bg-white rounded-lg shadow p-6 max-w-xl">
 
     <h2 class="text-xl font-semibold text-gray-800 mb-6">
-        Tambah Supplier
+        Edit Supplier
     </h2>
 
-    {{-- FORM CREATE --}}
-    <form action="{{ route('supplier.store') }}" method="POST">
+    {{-- FORM EDIT --}}
+    <form action="{{ route('supplier.update', $supplier->id) }}" method="POST">
         @csrf
+        @method('PUT')
 
         <!-- NAMA SUPPLIER -->
         <div class="mb-4">
@@ -22,7 +23,7 @@
             <input
                 type="text"
                 name="name"
-                value="{{ old('name') }}"
+                value="{{ old('name', $supplier->name) }}"
                 class="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-indigo-500"
                 required
             >
@@ -39,7 +40,7 @@
             <input
                 type="text"
                 name="phone"
-                value="{{ old('phone') }}"
+                value="{{ old('phone', $supplier->phone) }}"
                 class="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-indigo-500"
             >
             @error('phone')
@@ -56,7 +57,7 @@
                 name="address"
                 rows="3"
                 class="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-indigo-500"
-            >{{ old('address') }}</textarea>
+            >{{ old('address', $supplier->address) }}</textarea>
             @error('address')
                 <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
             @enderror
@@ -70,7 +71,7 @@
             <input
                 type="email"
                 name="email"
-                value="{{ old('email') }}"
+                value="{{ old('email', $supplier->email) }}"
                 class="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-indigo-500"
             >
             @error('email')
@@ -84,7 +85,7 @@
                 type="submit"
                 class="bg-indigo-500 text-white px-5 py-2 rounded hover:bg-indigo-600"
             >
-                Simpan
+                Update
             </button>
 
             <a
