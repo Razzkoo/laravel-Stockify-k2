@@ -2,13 +2,13 @@
 
 @section('content')
 
-<div class="w-full bg-white border border-gray-200 rounded-lg shadow p-6 lg:p-8">
+<div class="w-full bg-white/30 backdrop-blur-xl border border-white/40 rounded-2xl shadow-xl p-8">
 
-  <h1 class="text-xl font-bold text-center mb-6">
+  <h1 class="text-xl font-bold text-white text-center mb-6">
     Lupa Password
   </h1>
 
-  <p class="text-sm text-center text-body mb-6">
+  <p class="text-sm text-center text-white text-body mb-6">
     Masukkan email yang terdaftar untuk menerima link reset password.
   </p>
 
@@ -16,13 +16,13 @@
 
     <!-- EMAIL -->
     <div class="mb-5">
-      <label for="email" class="block mb-2.5 text-sm font-medium text-heading">
+      <label for="email" class="block mb-2.5 text-sm font-medium text-white text-heading">
         Email
       </label>
       <input
         type="email"
         id="email"
-        class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-lg rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow placeholder:text-body"
+        class="bg-neutral-secondary-medium border border-default-medium text-white text-heading text-sm rounded-lg rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow placeholder:text-body"
         placeholder="name@email.com"
         required
       />
@@ -37,9 +37,9 @@
     </button>
 
     <!-- BACK TO LOGIN -->
-    <p class="mt-4 text-sm text-center text-body">
+    <p class="mt-4 text-sm text-center text-white text-body">
       Ingat password?
-      <a href="/auth/login" class="text-fg-brand font-medium hover:underline">
+      <a href="/auth/login" class="text-fg-brand font-medium text-white hover:underline">
         Login
       </a>
     </p>

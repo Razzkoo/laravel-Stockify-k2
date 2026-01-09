@@ -23,7 +23,7 @@
             </label>
             <input
                 type="text"
-                placeholder="Masukkan nama user"
+                placeholder=""
                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
         </div>
@@ -35,7 +35,7 @@
             </label>
             <input
                 type="email"
-                placeholder="contoh@email.com"
+                placeholder=""
                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
         </div>
@@ -47,7 +47,7 @@
             </label>
             <input
                 type="password"
-                placeholder="23mdfjf"
+                placeholder=""
                 class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
         </div>

@@ -7,7 +7,16 @@
     <title>Stockify - Auth</title>
 </head>
 
-<body class="bg-gray-100">
+<body class="min-h-screen relative overflow-hidden">
+
+<!-- BACKGROUND -->
+    <div class="absolute inset-0 -z-10">
+        <video autoplay muted loop playsinline
+               class="w-full h-full object-cover">
+            <source src="/video/bg-welcome-pink.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-black/60"></div>
+    </div>
 
   <div class="min-h-screen flex items-center justify-center px-4">
     <div class="w-full max-w-2xl mx-auto">

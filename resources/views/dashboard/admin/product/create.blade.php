@@ -51,7 +51,7 @@
             <input
                 type="text"
                 placeholder="Contoh: Beras Premium"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-indigo-300 focus:outline-none">
         </div>
 
         <!-- Nama Supplier -->
@@ -62,7 +62,7 @@
             <input
                 type="text"
                 placeholder="Contoh: PT Sumber Pangan"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-indigo-300 focus:outline-none">
         </div>
 
         <!-- Kategori & Atribut -->
@@ -74,7 +74,7 @@
                 <input
                     type="text"
                     placeholder="Contoh: Sembako"
-                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-indigo-300 focus:outline-none">
             </div>
 
             <div>
@@ -84,19 +84,37 @@
                 <input
                     type="text"
                     placeholder="Contoh: 5kg"
-                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-indigo-300 focus:outline-none">
             </div>
         </div>
 
-        <!-- Harga -->
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">
-                Harga
-            </label>
-            <input
-                type="text"
-                placeholder="Contoh: 105.000"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        <!-- Harga Beli & Harga Jual -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Harga Beli
+                </label>
+                <input
+                    type="number"
+                    placeholder="Contoh: 100000"
+                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-indigo-300 focus:outline-none">
+                <p class="text-xs text-gray-400 mt-1">
+                    Harga dari supplier
+                </p>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    Harga Jual
+                </label>
+                <input
+                    type="number"
+                    placeholder="Contoh: 115000"
+                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-indigo-300 focus:outline-none">
+                <p class="text-xs text-gray-400 mt-1">
+                    Harga yang dijual ke pelanggan
+                </p>
+            </div>
         </div>
 
         <!-- Kode Barang & Stok -->
@@ -108,7 +126,7 @@
                 <input
                     type="text"
                     placeholder="Contoh: SKU-085"
-                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-indigo-300 focus:outline-none">
             </div>
 
             <div>
@@ -116,9 +134,9 @@
                     Stok
                 </label>
                 <input
-                    type="text"
+                    type="number"
                     placeholder="Contoh: 10"
-                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    class="w-full border border-gray-300 px-3 py-2 rounded-lg focus:ring-2 focus:ring-indigo-300 focus:outline-none">
             </div>
         </div>
 
@@ -130,7 +148,7 @@
             <textarea
                 rows="4"
                 placeholder="Deskripsi singkat mengenai produk"
-                class="w-full border border-gray-300 px-3 py-2 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+                class="w-full border border-gray-300 px-3 py-2 rounded-lg resize-none focus:ring-2 focus:ring-indigo-300 focus:outline-none"></textarea>
         </div>
 
         <!-- Button -->

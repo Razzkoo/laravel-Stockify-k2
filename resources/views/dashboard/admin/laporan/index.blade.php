@@ -1,114 +1,88 @@
 @extends('layouts.dashboard')
 
+@section('title', 'Laporan Sistem')
+
 @section('content')
 
 <!-- HEADER -->
-<div class="flex items-center justify-between mb-6">
+<div class="mb-6">
     <h1 class="text-2xl font-bold text-gray-800">
-        Laporan Stok Barang
+        Laporan Sistem
     </h1>
-
-    <div class="flex gap-2">
-        <button class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700">
-            Export Excel
-        </button>
-        <button class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">
-            Export PDF
-        </button>
-    </div>
+    <p class="text-sm text-gray-500 mt-1">
+        Ringkasan dan akses laporan sistem persediaan barang
+    </p>
 </div>
 
-<!-- SUMMARY CARD -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+<!-- SUMMARY -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
     <div class="bg-white p-5 rounded-lg shadow">
         <p class="text-sm text-gray-500">Total Barang</p>
         <p class="text-3xl font-bold text-gray-800">120</p>
     </div>
 
     <div class="bg-white p-5 rounded-lg shadow">
-        <p class="text-sm text-gray-500">Stok Menipis</p>
-        <p class="text-3xl font-bold text-yellow-500">8</p>
+        <p class="text-sm text-gray-500">Transaksi Bulan Ini</p>
+        <p class="text-3xl font-bold text-indigo-600">45</p>
     </div>
 
     <div class="bg-white p-5 rounded-lg shadow">
-        <p class="text-sm text-gray-500">Stok Habis</p>
-        <p class="text-3xl font-bold text-red-500">3</p>
+        <p class="text-sm text-gray-500">Pengguna Aktif</p>
+        <p class="text-3xl font-bold text-green-600">12</p>
     </div>
 </div>
 
-<!-- FILTER -->
-<div class="bg-white p-4 rounded-lg shadow mb-6">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <select class="border rounded-lg px-3 py-2 text-sm">
-            <option>Semua Jenis</option>
-            <option>Barang Masuk</option>
-            <option>Barang Keluar</option>
-        </select>
+<!-- LAPORAN MENU -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <input type="month"
-               class="border rounded-lg px-3 py-2 text-sm">
+    <!-- LAPORAN STOK -->
+    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">
+            Laporan Stok & Transaksi
+        </h2>
 
-        <button class="px-4 py-2 text-sm text-white bg-indigo-500 rounded-lg hover:bg-indigo-300">
-            Tampilkan
-        </button>
+        <p class="text-sm text-gray-500 mb-4">
+            Menampilkan data stok barang serta transaksi masuk dan keluar secara keseluruhan.
+        </p>
+
+        <a href="{{ url('dashboard/admin/laporan/stock') }}"
+           class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">
+            Lihat Laporan
+        </a>
     </div>
-</div>
 
-<!-- TABLE LAPORAN -->
-<div class="bg-white rounded-lg shadow overflow-x-auto">
-    <table class="w-full text-sm text-left text-gray-600">
-        <thead class="text-xs uppercase bg-gray-100 text-gray-700">
-            <tr>
-                <th class="px-6 py-3">Tanggal</th>
-                <th class="px-6 py-3">Kode Barang</th>
-                <th class="px-6 py-3">Nama Barang</th>
-                <th class="px-6 py-3">Jenis</th>
-                <th class="px-6 py-3">Jumlah</th>
-                <th class="px-6 py-3">Keterangan</th>
-            </tr>
-        </thead>
+    <!-- LAPORAN PER PERIODE (BARU) -->
+    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition border border-indigo-100">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">
+            Laporan Per Periode
+        </h2>
 
-        <tbody>
-            <tr class="border-b hover:bg-gray-50">
-                <td class="px-6 py-4">01-01-2025</td>
-                <td class="px-6 py-4">BRG-001</td>
-                <td class="px-6 py-4">Laptop ASUS</td>
-                <td class="px-6 py-4">
-                    <span class="px-3 py-1 text-xs font-semibold text-green-700 bg-green-100 rounded-full">
-                        Masuk
-                    </span>
-                </td>
-                <td class="px-6 py-4">10</td>
-                <td class="px-6 py-4">Pengadaan awal tahun</td>
-            </tr>
+        <p class="text-sm text-gray-500 mb-4">
+            Menampilkan laporan stok dan transaksi barang berdasarkan periode waktu dan kategori.
+        </p>
 
-            <tr class="border-b hover:bg-gray-50">
-                <td class="px-6 py-4">05-01-2025</td>
-                <td class="px-6 py-4">BRG-002</td>
-                <td class="px-6 py-4">Kabel LAN</td>
-                <td class="px-6 py-4">
-                    <span class="px-3 py-1 text-xs font-semibold text-red-700 bg-red-100 rounded-full">
-                        Keluar
-                    </span>
-                </td>
-                <td class="px-6 py-4">15</td>
-                <td class="px-6 py-4">Distribusi ke divisi IT</td>
-            </tr>
+        <a href="{{ url('dashboard/admin/laporan/periode') }}"
+           class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">
+            Pilih Periode
+        </a>
+    </div>
 
-            <tr class="hover:bg-gray-50">
-                <td class="px-6 py-4">10-01-2025</td>
-                <td class="px-6 py-4">BRG-003</td>
-                <td class="px-6 py-4">Mouse Logitech</td>
-                <td class="px-6 py-4">
-                    <span class="px-3 py-1 text-xs font-semibold text-red-700 bg-red-100 rounded-full">
-                        Keluar
-                    </span>
-                </td>
-                <td class="px-6 py-4">5</td>
-                <td class="px-6 py-4">Penggantian unit rusak</td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- LAPORAN AKTIVITAS -->
+    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">
+            Laporan Aktivitas Pengguna
+        </h2>
+
+        <p class="text-sm text-gray-500 mb-4">
+            Menampilkan riwayat aktivitas pengguna seperti input, perubahan, dan persetujuan data.
+        </p>
+
+        <a href="{{ url('dashboard/admin/laporan/aktivitas') }}"
+           class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">
+            Lihat Laporan
+        </a>
+    </div>
+
 </div>
 
 @endsection

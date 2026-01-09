@@ -4,85 +4,95 @@
 
 @section('content')
 
-<div class="bg-white rounded-lg shadow p-6">
+<div class="max-w-3xl">
 
-              {{-- FORM EDIT --}}
-        <form action="/dashboard/admin/supplier" method="POST">
+    <!-- CARD -->
+    <div class="bg-white rounded-xl shadow p-6">
+
+        <!-- HEADER FORM -->
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold text-gray-800">
+                Tambah Supplier
+            </h2>
+            <p class="text-sm text-gray-500">
+                Isi data supplier dengan lengkap dan benar
+            </p>
+        </div>
+
+        {{-- FORM --}}
+        <form action="/dashboard/admin/supplier" method="POST" class="space-y-4">
             @csrf
             @method('PUT')
 
             <!-- NAMA SUPPLIER -->
-            <div class="mb-4">
-                <label class="block mb-2 text-sm font-medium text-gray-700">
+            <div>
+                <label class="block mb-1 text-sm font-medium text-gray-700">
                     Nama Supplier
                 </label>
                 <input
                     type="text"
                     name="nama"
-                    value=""
-                    class="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500"
+                    class="w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
                     required
                 >
             </div>
 
             <!-- NOMOR TELEPON -->
-            <div class="mb-4">
-                <label class="block mb-2 text-sm font-medium text-gray-700">
+            <div>
+                <label class="block mb-1 text-sm font-medium text-gray-700">
                     Nomor Telepon
                 </label>
                 <input
                     type="text"
                     name="nomor"
-                    value=""
-                    class="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500"
+                    class="w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
                     required
                 >
             </div>
 
             <!-- ALAMAT -->
-            <div class="mb-4">
-                <label class="block mb-2 text-sm font-medium text-gray-700">
+            <div>
+                <label class="block mb-1 text-sm font-medium text-gray-700">
                     Alamat
                 </label>
                 <input
                     type="text"
                     name="alamat"
-                    value=""
-                    class="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500"
+                    class="w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
                 >
             </div>
 
-             <!-- KATEGORI -->
-            <div class="mb-4">
-                <label class="block mb-2 text-sm font-medium text-gray-700">
-                    Kategori
+            <!-- EMAIL -->
+            <div>
+                <label class="block mb-1 text-sm font-medium text-gray-700">
+                    Email
                 </label>
                 <input
                     type="text"
-                    name="kategori"
-                    value=""
-                    class="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500"
+                    name="email"
+                    class="w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
                 >
             </div>
 
-        </form>
-
-    <!-- BUTTON -->
-            <div class="flex gap-3">
+            <!-- BUTTON -->
+            <div class="flex gap-3 pt-4">
                 <button
                     type="submit"
-                    class="bg-indigo-300 text-white px-5 py-2 rounded hover:bg-indigo-500"
+                    class="bg-indigo-500 text-white px-6 py-2.5 rounded-lg hover:bg-indigo-600"
                 >
                     Simpan
                 </button>
 
                 <a
                     href="/dashboard/admin/supplier"
-                    class="px-5 py-2 rounded border border-gray-300 hover:bg-gray-100"
+                    class="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100"
                 >
                     Batal
                 </a>
             </div>
+
+        </form>
+
     </div>
 </div>
 

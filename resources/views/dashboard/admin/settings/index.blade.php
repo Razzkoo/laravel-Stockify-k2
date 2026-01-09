@@ -39,7 +39,7 @@
 
             <!-- Button -->
         <div class="flex gap-6">
-            <a href="/dashboard/admin/settings/index"
+            <a href="/dashboard/admin/profile"
                class="px-5 py-2 rounded-lg border text-gray-600 hover:bg-gray-100 transition">
                 Batal
             </a>

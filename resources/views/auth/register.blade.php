@@ -2,9 +2,9 @@
 
 @section('content')
 
-<div class="w-full bg-white border border-gray-200 rounded-lg shadow p-6 lg:p-8">
+<div class="w-full bg-white/30 backdrop-blur-xl border border-white/40 rounded-2xl shadow-xl p-8">
 
-    <h1 class="text-xl font-bold text-center mb-6">
+    <h1 class="text-xl font-bold text-white text-center mb-6">
         Daftar Akun
     </h1>
 
@@ -12,7 +12,7 @@
 
   <!-- NAMA -->
   <div class="mb-5">
-    <label for="name" class="block mb-2.5 text-sm font-medium text-heading">
+    <label for="name" class="block mb-2.5 text-sm font-medium text-white text-heading">
       Nama
     </label>
     <input
@@ -26,7 +26,7 @@
 
   <!-- ROLE (WAJIB) -->
   <div class="mb-5">
-    <label for="role" class="block mb-2.5 text-sm font-medium text-heading">
+    <label for="role" class="block mb-2.5 text-sm font-medium text-white text-heading">
       Role
     </label>
     <select
@@ -43,7 +43,7 @@
 
   <!-- EMAIL -->
   <div class="mb-5">
-    <label for="email" class="block mb-2.5 text-sm font-medium text-heading">
+    <label for="email" class="block mb-2.5 text-sm font-medium text-white text-heading">
       Email
     </label>
     <input
@@ -57,7 +57,7 @@
 
   <!-- PASSWORD -->
   <div class="mb-5">
-    <label for="password" class="block mb-2.5 text-sm font-medium text-heading">
+    <label for="password" class="block mb-2.5 text-sm font-medium text-white text-heading">
       Password
     </label>
     <input
@@ -71,7 +71,7 @@
 
   <!-- KONFIRMASI PASSWORD -->
   <div class="mb-6">
-    <label for="password_confirmation" class="block mb-2.5 text-sm font-medium text-heading">
+    <label for="password_confirmation" class="block mb-2.5 text-sm font-medium text-white text-heading">
       Konfirmasi Password
     </label>
     <input
@@ -92,9 +92,9 @@
   </button>
 
   <!-- LINK KE LOGIN -->
-<p class="mt-4 text-sm text-center text-body">
+<p class="mt-4 text-sm text-center text-white">
   Sudah punya akun?
-  <a href="/auth/login" class="font-medium text-fg-brand hover:underline">
+  <a href="/auth/login" class="font-medium text-fg-brand text-white hover:underline">
     Login
   </a>
 </p>

@@ -1,121 +1,117 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Dashboard')
+@section('title', 'Dashboard Staff')
 
 @section('content')
 
-<!-- Header -->
-<div class="mb-6">
-    <h1 class="text-2xl font-semibold text-gray-800">Dashboard</h1>
-    <p class="text-sm text-gray-500">
-        Ringkasan aktivitas dan kondisi stok
-    </p>
-</div>
+<div class="space-y-8">
 
-<!-- SUMMARY CARDS -->
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <!-- HEADER -->
+    <div class="bg-white p-6 rounded-lg shadow">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="text-xl font-semibold text-gray-800">
+                    Dashboard Staff Gudang
+                </h1>
+                <p class="text-sm text-gray-500 mt-1">
+                    Daftar tugas operasional yang perlu diselesaikan hari ini
+                </p>
+            </div>
 
-    <!-- Produk -->
-    <div class="bg-white p-5 rounded-lg shadow">
-        <p class="text-sm text-gray-500">Total Produk</p>
-        <h2 class="text-3xl font-bold mt-1">128</h2>
+           <!-- RIGHT -->
+    <div class="text-sm text-gray-500 flex items-center gap-2">
+        <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+</svg>
+</span>
+        <span>{{ date('l, d M Y') }}</span>
     </div>
 
-    <!-- Masuk -->
-    <div class="bg-white p-5 rounded-lg shadow">
-        <p class="text-sm text-gray-500">Barang Masuk (Bulan Ini)</p>
-        <h2 class="text-3xl font-bold text-green-600 mt-1">+42</h2>
+        </div>
     </div>
 
-    <!-- Keluar -->
-    <div class="bg-white p-5 rounded-lg shadow">
-        <p class="text-sm text-gray-500">Barang Keluar (Bulan Ini)</p>
-        <h2 class="text-3xl font-bold text-red-600 mt-1">-35</h2>
-    </div>
+    <!-- SUMMARY TASK -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-    <!-- Stok Menipis -->
-    <div class="bg-white p-5 rounded-lg shadow">
-        <p class="text-sm text-gray-500">Stok Menipis</p>
-        <h2 class="text-3xl font-bold text-orange-600 mt-1">7</h2>
-    </div>
-
-</div>
-
-<!-- MAIN CONTENT -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-    <!-- GRAFIK STOK -->
-    <div class="bg-white p-6 rounded-lg shadow lg:col-span-2">
-        <h3 class="font-semibold text-gray-800 mb-4">
-            Grafik Stok Barang
-        </h3>
-
-        <!-- Placeholder Grafik -->
-        <div class="h-56 flex items-center justify-center border border-dashed rounded text-gray-400 text-sm">
-            Grafik stok akan ditampilkan di sini
+        <div class="bg-white rounded-xl p-5 shadow border-l-4 border-yellow-400 hover:shadow-md transition">
+            <p class="text-sm text-gray-500">Barang Masuk</p>
+            <h2 class="text-3xl font-bold text-yellow-600 mt-1">3</h2>
+            <p class="text-xs text-gray-400 mt-1">Perlu dicek</p>
         </div>
 
-        <!-- note -->
-        <p class="text-xs text-gray-400 mt-3">
-            * Grafik bisa berdasarkan produk atau kategori
-        </p>
+        <div class="bg-white rounded-xl p-5 shadow border-l-4 border-blue-400 hover:shadow-md transition">
+            <p class="text-sm text-gray-500">Barang Keluar</p>
+            <h2 class="text-3xl font-bold text-blue-600 mt-1">2</h2>
+            <p class="text-xs text-gray-400 mt-1">Perlu disiapkan</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-5 shadow border-l-4 border-green-500 hover:shadow-md transition">
+            <p class="text-sm text-gray-500">Tugas Selesai</p>
+            <h2 class="text-3xl font-bold text-green-600 mt-1">5</h2>
+            <p class="text-xs text-gray-400 mt-1">Hari ini</p>
+        </div>
+
     </div>
 
-    <!-- AKTIVITAS TERBARU -->
-    <div class="bg-white p-6 rounded-lg shadow">
-        <h3 class="font-semibold text-gray-800 mb-4">
-            Aktivitas Terbaru
-        </h3>
+    <!-- TASK LIST -->
+    <div class="bg-white rounded-lg shadow">
 
-        <ul class="space-y-4 text-sm">
-            <li class="flex items-start gap-3">
-                <span class="mt-1 h-2 w-2 bg-blue-600 rounded-full"></span>
-                <div>
-                    <p class="text-gray-800">
-                        Admin menambahkan produk <b>Beras Premium</b>
-                    </p>
-                    <span class="text-xs text-gray-400">
-                        10 menit lalu
-                    </span>
-                </div>
-            </li>
+        <div class="p-4 border-b">
+            <h2 class="font-semibold text-gray-700">
+                Daftar Tugas Hari Ini
+            </h2>
+        </div>
 
-            <li class="flex items-start gap-3">
-                <span class="mt-1 h-2 w-2 bg-green-600 rounded-full"></span>
-                <div>
-                    <p class="text-gray-800">
-                        Barang masuk sebanyak <b>+20</b>
-                    </p>
-                    <span class="text-xs text-gray-400">
-                        1 jam lalu
-                    </span>
-                </div>
-            </li>
+        <div class="p-4 overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="text-left text-gray-500">
+                    <tr>
+                        <th class="py-2">Jenis</th>
+                        <th>Nama Barang</th>
+                        <th>Jumlah</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
 
-            <li class="flex items-start gap-3">
-                <span class="mt-1 h-2 w-2 bg-red-600 rounded-full"></span>
-                <div>
-                    <p class="text-gray-800">
-                        Barang keluar <b>-5</b> (Penjualan)
-                    </p>
-                    <span class="text-xs text-gray-400">
-                        3 jam lalu
-                    </span>
-                </div>
-            </li>
+                <tbody class="text-gray-700">
 
-            <li class="flex items-start gap-3">
-                <span class="mt-1 h-2 w-2 bg-gray-400 rounded-full"></span>
-                <div>
-                    <p class="text-gray-800">
-                        User staff login
-                    </p>
-                    <span class="text-xs text-gray-400">
-                        Hari ini
-                    </span>
-                </div>
-            </li>
-        </ul>
+                    <tr class="border-t hover:bg-gray-50">
+                        <td class="py-2">Barang Masuk</td>
+                        <td>Minyak Goreng</td>
+                        <td>50</td>
+                        <td>
+                            <span class="px-2 py-1 text-xs rounded bg-yellow-100 text-yellow-700">
+                                Perlu Dicek
+                            </span>
+                        </td>
+                        <td>
+                            <button class="text-xs text-blue-600 hover:underline">
+                                Proses
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr class="border-t hover:bg-gray-50">
+                        <td class="py-2">Barang Keluar</td>
+                        <td>Beras 5kg</td>
+                        <td>20</td>
+                        <td>
+                            <span class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-700">
+                                Perlu Disiapkan
+                            </span>
+                        </td>
+                        <td>
+                            <button class="text-xs text-blue-600 hover:underline">
+                                Proses
+                            </button>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
 </div>

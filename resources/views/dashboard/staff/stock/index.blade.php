@@ -1,87 +1,132 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Stok Barang')
+@section('title', 'Manajemen Stok - Staff')
 
 @section('content')
+<div class="p-6 space-y-8">
 
-<!-- Header -->
-<div class="flex items-center justify-between mb-6">
+    <!-- HEADER -->
     <div>
-        <h1 class="text-2xl font-semibold text-gray-800">Stok Barang</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Konfirmasi Stok</h1>
         <p class="text-sm text-gray-500">
-            Riwayat barang masuk dan keluar
+            Konfirmasi penerimaan dan pengeluaran barang
         </p>
     </div>
 
-    <a href="/dashboard/admin/stock/create"
-       class="px-4 py-2 text-sm bg-indigo-600 text-white rounded hover:bg-indigo-700">
-        + Tambah Transaksi
-    </a>
+    <!-- RINGKASAN -->
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="bg-white rounded-lg p-4 shadow">
+            <p class="text-xs text-gray-500">Menunggu Konfirmasi Masuk</p>
+            <p class="text-xl font-semibold text-green-600">3</p>
+        </div>
+
+        <div class="bg-white rounded-lg p-4 shadow">
+            <p class="text-xs text-gray-500">Menunggu Konfirmasi Keluar</p>
+            <p class="text-xl font-semibold text-red-600">2</p>
+        </div>
+
+        <div class="bg-white rounded-lg p-4 shadow">
+            <p class="text-xs text-gray-500">Total Menunggu</p>
+            <p class="text-xl font-semibold text-gray-800">5</p>
+        </div>
+    </div>
+
+    <!-- OPTION VIEW -->
+    <div class="bg-white rounded-xl shadow p-4">
+        <div class="flex gap-4 mb-6">
+            <button onclick="showView('masuk')" id="btn-masuk"
+                class="px-4 py-2 rounded-lg text-sm bg-green-500 text-white">
+                Barang Masuk
+            </button>
+
+            <button onclick="showView('keluar')" id="btn-keluar"
+                class="px-4 py-2 rounded-lg text-sm bg-gray-200 text-gray-700">
+                Barang Keluar
+            </button>
+        </div>
+
+        <!-- ================= KONFIRMASI BARANG MASUK ================= -->
+        <div id="view-masuk">
+            <h2 class="font-semibold mb-3">Konfirmasi Barang Masuk</h2>
+
+            <div class="bg-white rounded-xl border overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3 text-left">Produk</th>
+                            <th class="px-4 py-3 text-center">Jumlah</th>
+                            <th class="px-4 py-3 text-center">Tanggal</th>
+                            <th class="px-4 py-3 text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="px-4 py-3 font-medium">Beras Premium</td>
+                            <td class="px-4 py-3 text-center">20</td>
+                            <td class="px-4 py-3 text-center">12 Jan 2025</td>
+                            <td class="px-4 py-3 text-center">
+                                <button class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white text-xs rounded-lg">
+                                    Konfirmasi
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= KONFIRMASI BARANG KELUAR ================= -->
+        <div id="view-keluar" class="hidden">
+            <h2 class="font-semibold mb-3">Konfirmasi Barang Keluar</h2>
+
+            <div class="bg-white rounded-xl border overflow-hidden">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3 text-left">Produk</th>
+                            <th class="px-4 py-3 text-center">Jumlah</th>
+                            <th class="px-4 py-3 text-center">Tanggal</th>
+                            <th class="px-4 py-3 text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="px-4 py-3 font-medium">Gula Pasir</td>
+                            <td class="px-4 py-3 text-center">5</td>
+                            <td class="px-4 py-3 text-center">12 Jan 2025</td>
+                            <td class="px-4 py-3 text-center">
+                                <button class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-xs rounded-lg">
+                                    Konfirmasi
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- INFO ROLE -->
+    <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg text-sm">
+        Staff hanya bertugas melakukan konfirmasi barang masuk dan keluar.
+        Pencatatan transaksi dilakukan oleh manajer.
+    </div>
+
 </div>
 
-<!-- Table -->
-<div class="bg-white p-4 rounded-lg shadow max-w-5xl">
-    <table class="w-full text-sm text-left">
-        <thead class="bg-gray-100 text-gray-700">
-            <tr>
-                <th class="px-4 py-3">Produk</th>
-                <th class="px-4 py-3">User</th>
-                <th class="px-4 py-3">Tipe</th>
-                <th class="px-4 py-3">Qty</th>
-                <th class="px-4 py-3">Tanggal</th>
-                <th class="px-4 py-3">Status</th>
-                <th class="px-4 py-3">Catatan</th>
-            </tr>
-        </thead>
+<script>
+function showView(view) {
+    ['masuk','keluar'].forEach(v => {
+        document.getElementById('view-' + v).classList.add('hidden');
+        document.getElementById('btn-' + v).classList.remove('bg-green-500','bg-red-500','text-white');
+        document.getElementById('btn-' + v).classList.add('bg-gray-200','text-gray-700');
+    });
 
-        <tbody>
-            <!-- MASUK -->
-            <tr class="border-b">
-                <td class="px-4 py-3">Beras Premium</td>
-                <td class="px-4 py-3">Admin</td>
-                <td class="px-4 py-3">
-                    <span class="px-2 py-1 text-xs rounded bg-green-100 text-green-600">
-                        Masuk
-                    </span>
-                </td>
-                <td class="px-4 py-3 text-green-600 font-medium">
-                    +20
-                </td>
-                <td class="px-4 py-3">2025-01-10</td>
-                <td class="px-4 py-3">
-                    <span class="text-xs px-2 py-1 rounded bg-blue-100 text-blue-600">
-                        Selesai
-                    </span>
-                </td>
-                <td class="px-4 py-3 text-gray-500">
-                    Restock gudang
-                </td>
-            </tr>
+    document.getElementById('view-' + view).classList.remove('hidden');
+    const btn = document.getElementById('btn-' + view);
 
-            <!-- KELUAR -->
-            <tr class="border-b">
-                <td class="px-4 py-3">Beras Premium</td>
-                <td class="px-4 py-3">Kasir</td>
-                <td class="px-4 py-3">
-                    <span class="px-2 py-1 text-xs rounded bg-red-100 text-red-600">
-                        Keluar
-                    </span>
-                </td>
-                <td class="px-4 py-3 text-red-600 font-medium">
-                    -5
-                </td>
-                <td class="px-4 py-3">2025-01-11</td>
-                <td class="px-4 py-3">
-                    <span class="text-xs px-2 py-1 rounded bg-gray-100 text-gray-600">
-                        Disetujui
-                    </span>
-                </td>
-                <td class="px-4 py-3 text-gray-500">
-                    Penjualan toko
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
+    btn.classList.remove('bg-gray-200','text-gray-700');
+    btn.classList.add(view === 'masuk' ? 'bg-green-500' : 'bg-red-500','text-white');
+}
+</script>
 @endsection
