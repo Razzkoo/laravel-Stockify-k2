@@ -3,30 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    /**
-     * Menampilkan semua user (VIEW)
-     */
     public function index()
     {
-        $users = User::all();
-        return view('dashboard.admin.user.index', compact('users'));
-    }
+        $users = User::query()
+            ->whereNotNull('role')
+            ->latest()
+            ->get();
 
-    /**
-     * Menampilkan form tambah user
-     */
+        return view('admin.user.index', compact('users'));
+    }
     public function create()
     {
-        return view('dashboard.admin.user.create');
+        return view('admin.user.create');
     }
-
-    /**
-     * Menyimpan user baru
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -34,31 +29,33 @@ class UserController extends Controller
             'email'    => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:3',
             'role'     => 'required|in:admin,manajer_gudang,staff_gudang',
+        ], [
+            'email.unique' => 'Email sudah digunakan, silakan gunakan email lain.',
         ]);
 
-        User::create([
-            'name'     => $validated['name'],
-            'email'    => $validated['email'],
-            'password' => $validated['password'], // auto-hash (cast)
-            'role'     => $validated['role'],
-        ]);
+        DB::transaction(function () use ($validated) {
 
+            $user = User::create([
+                'name'     => $validated['name'],
+                'email'    => $validated['email'],
+                'password' => bcrypt($validated['password']),
+                'role'     => $validated['role'],
+            ]);
+            logActivity(
+                'Tambah Pengguna',
+                'Menambah pengguna: ' . $user->name . ' (' . $user->role . ')'
+            );
+
+        });
         return redirect()
-            ->route('user.index')
-            ->with('success', 'User berhasil ditambahkan');
+            ->route('admin.user.index')
+            ->with('success', 'User berhasil dibuat.');
     }
-
-    /**
-     * Menampilkan form edit user
-     */
     public function edit(User $user)
     {
-        return view('dashboard.admin.user.edit', compact('user'));
+        return view('admin.user.edit', compact('user'));
     }
 
-    /**
-     * Update data user
-     */
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
@@ -66,26 +63,37 @@ class UserController extends Controller
             'email'    => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:3',
             'role'     => 'required|in:admin,manajer_gudang,staff_gudang',
+        ], [
+            'email.unique' => 'Email sudah digunakan, silakan gunakan email lain.',
         ]);
 
         if (empty($validated['password'])) {
             unset($validated['password']);
         }
+        logActivity(
+                'Perbarui Pengguna',
+                'Memperbarui pengguna : ' . $user->name . ' (' . $user->role . ')'
+            );
 
         $user->update($validated);
 
         return redirect()
-            ->route('user.index')
+            ->route('admin.user.index')
             ->with('success', 'User berhasil diperbarui');
     }
 
-    /**
-     * Menghapus user
-     */
     public function destroy(User $user)
     {
-        $user->delete();
-        return redirect()->route('user.index')
-            ->with('success', 'User berhasil dihapus');
+        logActivity(
+                'Hapus Pengguna',
+                'Menambah pengguna: ' . $user->name . ' (' . $user->role . ')'
+            );
+        $user->userRequests()->forceDelete();
+        $user->forceDelete();
+
+        return redirect()
+            ->route('admin.user.index')
+            ->with('success', 'User dan seluruh permintaannya berhasil dihapus');
     }
+
 }

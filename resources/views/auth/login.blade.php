@@ -1,115 +1,156 @@
-@extends('layouts.auth')
+@extends('auth.layout')
 
 @section('content')
 
-<div class="w-full bg-white border border-gray-200 rounded-lg shadow p-6 lg:p-8">
+<div class="space-y-6">
 
-    <h1 class="text-2xl font-bold text-center mb-6">
-        Login
-    </h1>
+    <div class="text-center">
+        <h1 class="text-2xl font-bold tracking-wide auth-text">
+            Login
+        </h1>
+        <p class="mt-1 text-sm auth-muted">
+            Masukkan email dan password untuk masuk
+        </p>
+    </div>
+    <!--ALERT-->
+    @if (session('success'))
+        <div class="flex gap-3 p-4 rounded-xl
+                    bg-green-500/10 border border-green-500/30
+                    text-green-600 text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 mt-0.5 text-green-500 flex-shrink-0"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M5 13l4 4L19 7"/>
+            </svg>
+            <span>{{ session('success') }}</span>
+        </div>
+    @endif
+    @if ($errors->any())
+        <div class="flex gap-3 p-4 rounded-xl
+                    bg-red-500/10 border border-red-500/30
+                    text-red-600 text-sm animate-shake">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5 mt-0.5 text-red-500 flex-shrink-0"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 9v2m0 4h.01M5.07 19h13.86
+                    c1.54 0 2.5-1.67 1.73-3L13.73 4
+                    c-.77-1.33-2.69-1.33-3.46 0L3.34 16
+                    c-.77 1.33.19 3 1.73 3z"/>
+            </svg>
+            <ul class="space-y-1">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-    <form class="max-w-sm mx-auto">
+    <form action="{{ route('auth.login.post') }}" method="POST" class="space-y-5">
+        @csrf
+        <div>
+            <label class="block mb-2 text-sm font-medium auth-muted">
+                Email
+            </label>
+            <input
+                type="email"
+                name="email"
+                value="{{ old('email') }}"
+                required
+                class="w-full p-3 rounded-xl auth-input transition"
+                placeholder="name@company.com">
+        </div>
+        <div>
+            <label class="block mb-2 text-sm font-medium auth-muted">
+                Password
+            </label>
+            <div class="relative">
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    required
+                    class="w-full p-3 pr-12 rounded-xl auth-input transition"
+                    placeholder="•••">
+                <button
+                    type="button"
+                    onclick="togglePassword()"
+                    class="absolute inset-y-0 right-7 flex items-center">
 
-      <!-- NAMA -->
-      <div class="mb-5">
-        <label for="name" class="block mb-2.5 text-sm font-medium text-heading">
-          Nama
-        </label>
-        <input
-          type="text"
-          id="name"
-          class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-lg rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-          placeholder=""
-          required
-        />
-      </div>
+                    <!--ICON-->
+                    <svg id="eyeOpen"
+                        class="w-5 h-5 absolute transition-all duration-200 ease-out
+                            opacity-100 scale-100"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5
+                            c4.478 0 8.268 2.943 9.542 7
+                            -1.274 4.057-5.064 7-9.542 7
+                            -4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                    <svg id="eyeClosed"
+                        class="w-5 h-5 absolute transition-all duration-200 ease-out
+                            opacity-0 scale-90 pointer-events-none"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 3l18 18"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10.58 10.58a3 3 0 004.24 4.24"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5
+                            c2.207 0 4.244.717 5.95 1.93"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
 
-      <!-- EMAIL -->
-      <div class="mb-5">
-        <label for="email" class="block mb-2.5 text-sm font-medium text-heading">
-          Your email
-        </label>
-        <input
-          type="email"
-          id="email"
-          class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-lg rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-          placeholder=""
-          required
-        />
-      </div>
-
-      <!-- PASSWORD -->
-      <div class="mb-5">
-        <label for="password" class="block mb-2.5 text-sm font-medium text-heading">
-          Your password
-        </label>
-        <input
-          type="password"
-          id="password"
-          class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-lg rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs placeholder:text-body"
-          placeholder=""
-          required
-        />
-      </div>
-
-      <!-- ROLE -->
-      <div class="mb-5">
-        <label for="role" class="block mb-2.5 text-sm font-medium text-heading">
-          Role
-        </label>
-        <select
-          id="role"
-          class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-lg rounded-base focus:ring-brand focus:border-brand block w-full px-3 py-2.5 shadow-xs"
-          required
-        >
-          <option value="" disabled selected>Pilih role</option>
-          <option value="admin">Admin</option>
-          <option value="staff">Manajer Gudang</option>
-          <option value="user">Staff Gudang</option>
-        </select>
-      </div>
-
-      <!-- INGAT SAYA -->
-      <div class="flex items-center justify-between mb-5">
-  
-  <!-- INGAT SAYA -->
-  <label for="remember" class="flex items-center">
-    <input
-      id="remember"
-      type="checkbox"
-      class="w-4 h-4 border border-default-medium rounded-xs bg-neutral-secondary-medium focus:ring-2 focus:ring-brand-soft"
-    />
-    <span class="ms-2 text-sm font-medium text-heading select-none">
-      Ingat saya
-    </span>
-  </label>
-
-  <!-- LUPA PASSWORD -->
-  <a
-    href="/auth/lost-pass"
-    class="text-sm font-medium text-fg-brand hover:underline"
-  >
-    Lupa password?
-  </a>
-
-</div>
-
-      <!-- BUTTON -->
-      <button
-        type="submit"
-        class="w-full text-white rounded-lg bg-gradient-to-r from-indigo-400 via-indigo-400 to-indigo-400 hover:bg-indigo-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-base text-sm px-4 py-2.5 text-center leading-5">
-        Masuk
-      </button>
-
-      <p class="mt-4 text-sm text-center text-body">
-   Belum punya akun?
-  <a href="/auth/register" class="font-medium text-fg-brand hover:underline">
-    Daftar
-  </a>
-</p>
-
+        <div class="flex items-center gap-2 text-sm auth-muted">
+            <input type="checkbox"
+                   class="w-4 h-4 rounded border var(--border)">
+            Ingat saya
+        </div>
+        <button
+            type="submit"
+            class="w-full py-3 rounded-xl font-semibold text-white
+                   bg-indigo-600 hover:bg-indigo-700
+                   transition shadow-lg shadow-indigo-500/30">
+            Masuk
+        </button>
+        <p class="text-sm text-center auth-muted">
+            Belum punya akun?
+            <a href="{{ route('auth.register') }}"
+               class="text-indigo-500 hover:text-indigo-600 font-medium">
+                Daftar
+            </a>
+        </p>
     </form>
-
 </div>
+<script>
+function togglePassword() {
+    const input = document.getElementById('password')
+    const open = document.getElementById('eyeOpen')
+    const close = document.getElementById('eyeClosed')
 
+    if (input.type === 'password') {
+        input.type = 'text'
+
+        open.classList.replace('opacity-100', 'opacity-0')
+        open.classList.replace('scale-100', 'scale-90')
+
+        close.classList.replace('opacity-0', 'opacity-100')
+        close.classList.replace('scale-90', 'scale-100')
+    } else {
+        input.type = 'password'
+
+        close.classList.replace('opacity-100', 'opacity-0')
+        close.classList.replace('scale-100', 'scale-90')
+
+        open.classList.replace('opacity-0', 'opacity-100')
+        open.classList.replace('scale-90', 'scale-100')
+    }
+}
+</script>
 @endsection

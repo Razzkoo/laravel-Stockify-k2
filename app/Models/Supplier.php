@@ -14,10 +14,6 @@ class Supplier extends Model
         'phone',
         'email',
     ];  
-
-    /**
-     cast attributes
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

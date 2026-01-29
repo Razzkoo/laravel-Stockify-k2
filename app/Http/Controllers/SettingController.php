@@ -2,37 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Setting;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
+    public function index()
+    {
+        $setting = Setting::first();
+        return view('admin.setting.index', compact('setting'));
+    }
+
     public function update(Request $request)
     {
-    $user = Auth::user();
+        $request->validate([
+            'app_name' => 'required|string|max:255',
+            'app_logo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-    // Validasi
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email,' . $user->id,
-        'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+        $setting = Setting::first();
+        if (!$setting) {
+            $setting = new Setting();
+        }
+        $setting->app_name = $request->app_name;
 
-    // Upload foto jika ada
-    if ($request->hasFile('profile_photo')) {
-        $file = $request->file('profile_photo');
-        $filename = time() . '_' . $file->getClientOriginalName();
-        $file->storeAs('public/profile_photos', $filename);
+        
+        if ($request->hasFile('app_logo')) {
+            if ($setting->app_logo && Storage::disk('public')->exists($setting->app_logo)) {
+                Storage::disk('public')->delete($setting->app_logo);
+            }
 
-        // Simpan path di database
-        $user->profile_photo = $filename;
+            $path = $request->file('app_logo')->store('settings', 'public');
+            $setting->app_logo = $path;
+        }
+
+        $setting->save();
+
+        return redirect()->back()->with('success', 'Pengaturan berhasil diperbarui.');
     }
-
-    // Update nama & email
-    $user->name = $request->name;
-    $user->email = $request->email;
-    $user->save();
-
-    return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
-    }
-
 }

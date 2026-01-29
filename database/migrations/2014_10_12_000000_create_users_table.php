@@ -17,11 +17,16 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
 
-            //role
-            $table->enum('role', ['admin', 'manajer_gudang','staff_gudang'])->default('staff_gudang');
+            // role ditentukan SETELAH approve
+            $table->enum('role', [
+                'admin',
+                'manajer_gudang',
+                'staff_gudang'
+            ])->nullable();
+
             $table->rememberToken();
             $table->timestamps();
-            $table->softdeletes();
+            $table->softDeletes();
         });
     }
 

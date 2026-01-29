@@ -7,15 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductAttribute extends Model
 {
-    protected $table = 'tbl_product_attributes';
-    public $timestamps = false;
+    use HasFactory;
+    protected $fillable = [
+        'product_id',
+        'name',
+        'value',
+    ];
 
-    protected $fillable = ['product_id', 'name', 'value'];
-
-    //Relasi
+    //relation
     public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Product::class);
     }
 }
-

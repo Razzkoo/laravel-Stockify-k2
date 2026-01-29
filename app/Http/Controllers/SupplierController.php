@@ -7,26 +7,22 @@ use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    /**
-     * Menampilkan daftar supplier
-     */
+    //manajer view
+    public function manajer()
+    {
+        $suppliers = Supplier::latest()->get();
+        return view('manajer.supplier.index', compact('suppliers'));
+    }
+    //admin view
     public function index()
     {
         $suppliers = Supplier::latest()->get();
-        return view('dashboard.admin.supplier.index', compact('suppliers'));
+        return view('admin.supplier.index', compact('suppliers'));
     }
-
-    /**
-     * Menampilkan form tambah supplier
-     */
     public function create()
     {
-        return view('dashboard.admin.supplier.create');
+        return view('admin.supplier.create');
     }
-
-    /**
-     * Menyimpan supplier baru
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -35,25 +31,23 @@ class SupplierController extends Controller
             'phone'   => 'nullable|string|max:20',
             'email'   => 'nullable|email|unique:suppliers,email',
         ]);
+        $supplier = Supplier::create($validated);
 
-        Supplier::create($validated);
+        logActivity(
+            'Tambah Supplier',
+            'Menambah supplier: ' . $supplier->name
+        );
 
         return redirect()
-            ->route('supplier.index')
+            ->route('admin.supplier.index')
             ->with('success', 'Supplier berhasil ditambahkan');
     }
 
-    /**
-     * Menampilkan form edit supplier
-     */
     public function edit(Supplier $supplier)
     {
-        return view('dashboard.admin.supplier.edit', compact('supplier'));
+        return view('admin.supplier.edit', compact('supplier'));
     }
 
-    /**
-     * Update data supplier
-     */
     public function update(Request $request, Supplier $supplier)
     {
         $validated = $request->validate([
@@ -62,23 +56,29 @@ class SupplierController extends Controller
             'phone'   => 'nullable|string|max:20',
             'email'   => 'nullable|email|unique:suppliers,email,' . $supplier->id,
         ]);
+        logActivity(
+        'Perbarui Supplier',
+        'Memperbarui supplier: ' . $supplier->name
+        );
 
         $supplier->update($validated);
 
         return redirect()
-            ->route('supplier.index')
+            ->route('admin.supplier.index')
             ->with('success', 'Supplier berhasil diperbarui');
     }
 
-    /**
-     * Menghapus supplier
-     */
     public function destroy(Supplier $supplier)
     {
+        logActivity(
+        'Hapus Supplier',
+        'Menghapus supplier: ' . $supplier->name
+        );
+
         $supplier->delete();
 
         return redirect()
-            ->route('supplier.index')
+            ->route('admin.supplier.index')
             ->with('success', 'Supplier berhasil dihapus');
     }
 }

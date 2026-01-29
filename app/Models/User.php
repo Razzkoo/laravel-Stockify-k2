@@ -19,10 +19,12 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'profile_photo'
     ];
 
     protected $hidden = ['password'];
 
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that should be cast.
@@ -51,5 +53,14 @@ class User extends Authenticatable
     public function stockTransactions()
     {
         return $this->hasMany(StockTransaction::class, 'user_id');
+    }
+    public function userRequests()
+    {
+        return $this->hasMany(\App\Models\UserRequest::class);
+    }
+    //user request
+    public function userRequest()
+    {
+        return $this->hasOne(UserRequest::class);
     }
 }

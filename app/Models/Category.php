@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $table = 'tbl_categories';
-    public $timestamps = false;
+    use HasFactory;
+    protected $fillable = [
+        'name',
+        'description',
+    ];
 
-    protected $fillable = ['name', 'description'];
-
-    //Relasi
+    //relation
     public function products()
     {
-        return $this->hasMany(Product::class, 'category_id');
+        return $this->hasMany(Product::class);
     }
 }
-
