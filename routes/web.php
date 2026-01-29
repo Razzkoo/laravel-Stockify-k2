@@ -150,4 +150,3 @@ Route::post('/logout', function () {
 
     return redirect()->route('auth.login');
 })->middleware('auth')->name('logout');
->>>>>>> backend
