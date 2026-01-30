@@ -17,10 +17,11 @@
 <div class="max-w-6xl bg-white rounded-lg shadow
             dark:bg-gray-800 dark:border dark:border-gray-700">
 
-    <form action="{{ route('admin.product.update', $product->id) }}"
-          method="POST"
-          enctype="multipart/form-data"
-          class="p-6 space-y-5">
+    <form id="productForm" 
+            action="{{ route('admin.product.update', $product->id) }}"
+            method="POST"
+            enctype="multipart/form-data"
+            class="p-6 space-y-5">
         @csrf
         @method('PUT')
         <input type="hidden" name="adjusted_image" id="adjusted_image">
@@ -85,38 +86,78 @@
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Nama Produk
                 </label>
-                <input type="text" name="name" required
-                       value="{{ old('name', $product->name) }}"
-                       placeholder="Nama"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                              focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5
-                              dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                <input type="text" name="name"
+                    value="{{ old('name', $product->name) }}"
+                    placeholder="Nama"
+                    class="bg-gray-50 border text-sm rounded-lg block w-full p-2.5
+                        {{ $errors->has('name')
+                            ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
+                            : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500' }}
+                        dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+
+                @error('name')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
-            <div>
+            <div class="relative">
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Supplier
                 </label>
-                <select name="supplier_id" required
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                               focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5
-                               dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    <option disabled selected>-- Pilih Supplier --</option>
+
+                <input type="text"
+                    id="supplierSearch"
+                    value="{{ $product->supplier->name }}"
+                    placeholder="Ketik nama supplier yang tersedia"
+                    autocomplete="off"
+                    class="bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5
+                        focus:ring-indigo-500 focus:border-indigo-500
+                        dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+
+                <p id="supplierError"
+                class="hidden mt-1 text-sm text-red-600 dark:text-red-400">
+                    Supplier tidak ada
+                </p>
+
+                <select name="supplier_id" id="supplierSelect" size="5"
+                    class="hidden absolute top-full left-0 z-30 mt-1
+                        bg-white border border-gray-300 text-sm rounded-lg w-full p-2 
+                        dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     @foreach ($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}" {{ $product->supplier_id == $supplier->id ? 'selected' : '' }}>{{ $supplier->name }}</option>
+                        <option value="{{ $supplier->id }}"
+                            {{ $product->supplier_id == $supplier->id ? 'selected' : '' }}>
+                            {{ $supplier->name }}
+                        </option>
                     @endforeach
                 </select>
             </div>
-            <div>
+            <div class="relative">
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Kategori
                 </label>
-                <select name="category_id" required
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                               focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5
-                               dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    <option disabled selected>-- Pilih Kategori --</option>
+
+                <input type="text"
+                    id="categorySearch"
+                    value="{{ $product->category->name }}"
+                    placeholder="Ketik nama kategori yang tersedia"
+                    autocomplete="off"
+                    class="bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5
+                        focus:ring-indigo-500 focus:border-indigo-500
+                        dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+
+                <p id="categoryError"
+                class="hidden mt-1 text-sm text-red-600 dark:text-red-400">
+                    Kategori tidak ada
+                </p>
+
+                <select name="category_id" id="categorySelect" size="5"
+                    class="hidden absolute top-full left-0 z-30 mt-1
+                        bg-white border border-gray-300 text-sm rounded-lg w-full p-2
+                        dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                        <option value="{{ $category->id }}"
+                            {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -127,11 +168,20 @@
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     SKU
                 </label>
-                <input type="text" name="sku" required
-                       value="{{ old('sku', $product->sku) }}"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                              focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5
-                              dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+
+                <input type="text"
+                    name="sku"
+                    value="{{ old('sku', $product->sku) }}"
+                    placeholder="SKU Produk"
+                    class="bg-gray-50 border text-sm rounded-lg block w-full p-2.5
+                        {{ $errors->has('sku')
+                            ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
+                            : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500' }}
+                        dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+
+                @error('sku')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
             <div>
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -469,4 +519,108 @@ function formatRupiah(input, hiddenId) {
     input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 }
 </script>
+<script>
+function searchableDropdown(searchId, selectId) {
+    const searchInput = document.getElementById(searchId)
+    const selectBox = document.getElementById(selectId)
+
+    searchInput.addEventListener('focus', () => {
+        selectBox.classList.remove('hidden')
+    })
+
+    searchInput.addEventListener('input', function () {
+        const keyword = this.value.toLowerCase()
+        let visible = 0
+
+        Array.from(selectBox.options).forEach(option => {
+            const match = option.text.toLowerCase().includes(keyword)
+            option.style.display = match ? '' : 'none'
+            if (match) visible++
+        })
+
+        selectBox.classList.toggle('hidden', visible === 0)
+    })
+
+    selectBox.addEventListener('change', function () {
+        const selected = this.options[this.selectedIndex]
+        searchInput.value = selected.text
+        selectBox.classList.add('hidden')
+    })
+
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('.relative')) {
+            selectBox.classList.add('hidden')
+        }
+    })
+}
+
+searchableDropdown('supplierSearch', 'supplierSelect')
+searchableDropdown('categorySearch', 'categorySelect')
+</script>
+<script>
+const form = document.getElementById('productForm')
+
+form.addEventListener('submit', function (e) {
+    let valid = true
+
+    valid &= validateField(
+        'supplierSearch',
+        'supplierSelect',
+        'supplierError'
+    )
+
+    valid &= validateField(
+        'categorySearch',
+        'categorySelect',
+        'categoryError'
+    )
+
+    if (!valid) e.preventDefault()
+})
+
+function validateField(searchId, selectId, errorId) {
+    const search = document.getElementById(searchId)
+    const select = document.getElementById(selectId)
+    const error = document.getElementById(errorId)
+
+    const value = search.value.trim().toLowerCase()
+    let match = false
+
+    Array.from(select.options).forEach(option => {
+        if (option.text.toLowerCase() === value) {
+            match = true
+        }
+    })
+
+    if (!match) {
+        error.textContent = `"${search.value}" tidak ditemukan`
+        error.classList.remove('hidden')
+
+        search.classList.add(
+            'border-red-500',
+            'focus:border-red-500',
+            'focus:ring-red-500'
+        )
+    }
+
+    return match
+}
+
+;['supplierSearch', 'categorySearch'].forEach(id => {
+    const input = document.getElementById(id)
+    const error = document.getElementById(
+        id === 'supplierSearch' ? 'supplierError' : 'categoryError'
+    )
+
+    input.addEventListener('input', () => {
+        error.classList.add('hidden')
+        input.classList.remove(
+            'border-red-500',
+            'focus:border-red-500',
+            'focus:ring-red-500'
+        )
+    })
+})
+</script>
+
 @endsection

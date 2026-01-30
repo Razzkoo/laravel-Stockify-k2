@@ -28,10 +28,12 @@
                 </label>
                 <input type="text" name="name" value="{{ old('name') }}"
                        placeholder="Contoh: Minuman"
-                       class="block w-full p-2.5 text-sm
-                              text-gray-900 bg-gray-50 border border-gray-300 rounded-lg
-                              focus:ring-gray-400 focus:border-gray-400
-                              dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                       class="block w-full p-2.5 text-sm rounded-lg
+                                bg-gray-50 border
+                                {{ $errors->has('name')
+                                    ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
+                                    : 'border-gray-300 focus:ring-gray-400 focus:border-gray-400' }}
+                                dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                 @error('name')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -65,7 +67,6 @@
 
         </form>
     </div>
-
 </div>
 
 @endsection

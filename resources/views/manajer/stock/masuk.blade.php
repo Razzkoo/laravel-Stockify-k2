@@ -40,17 +40,32 @@
             Input Barang Masuk
         </h2>
 
-        <form action="{{ route('manajer.stock.masuk.store') }}" method="POST" class="space-y-4">
+        <form id="stockMasukForm"  action="{{ route('manajer.stock.masuk.store') }}" method="POST" class="space-y-4">
             @csrf
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pilih Produk</label>
-                    <select name="product_id" required
+                <div class="relative">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Cari Produk
+                    </label>
+                    <input type="text" id="productSearch"
+                        placeholder="Ketik nama produk yang tersedia"
+                        autocomplete="off"
                         class="bg-gray-50 border border-gray-300 text-sm rounded-lg w-full p-2.5
-                               dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                        <option value="">Pilih Produk</option>
+                            dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <!--arlet-->
+                    <p id="productError"
+                    class="hidden mt-1 text-sm text-red-600 dark:text-red-400">
+                        Produk tidak ada
+                    </p>
+
+                    <select name="product_id" id="productSelect" size="5"
+                        class="hidden absolute top-full left-0 z-20 mt-1
+                            bg-white border border-gray-300 text-sm rounded-lg w-full p-2
+                            dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                         @foreach($products as $product)
-                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            <option value="{{ $product->id }}">
+                                {{ $product->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -385,4 +400,77 @@ document.addEventListener('click', function(event) {
     }
 })
 </script>
+<script>
+    const searchInput = document.getElementById('productSearch');
+    const select = document.getElementById('productSelect');
+
+    searchInput.addEventListener('focus', () => {
+        select.classList.remove('hidden');
+    });
+
+    searchInput.addEventListener('input', function () {
+        const keyword = this.value.toLowerCase();
+        let visibleCount = 0;
+
+        Array.from(select.options).forEach(option => {
+            const match = option.text.toLowerCase().includes(keyword);
+            option.style.display = match ? '' : 'none';
+            if (match) visibleCount++;
+        });
+
+        select.classList.toggle('hidden', visibleCount === 0);
+    });
+    select.addEventListener('change', function () {
+        const selected = this.options[this.selectedIndex];
+        searchInput.value = selected.text;
+        select.classList.add('hidden');
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('.relative')) {
+            select.classList.add('hidden');
+        }
+    });
+</script>
+<script>
+const stockMasukForm = document.getElementById('stockMasukForm')
+const productSearch = document.getElementById('productSearch')
+const productSelect = document.getElementById('productSelect')
+const productError = document.getElementById('productError')
+
+stockMasukForm.addEventListener('submit', function (e) {
+    const inputValue = productSearch.value.trim().toLowerCase()
+    let isValid = false
+
+    Array.from(productSelect.options).forEach(option => {
+        if (option.text.toLowerCase() === inputValue) {
+            isValid = true
+        }
+    })
+
+    if (!isValid) {
+        e.preventDefault()
+
+        productError.textContent = `Produk "${productSearch.value}" tidak ditemukan`
+        productError.classList.remove('hidden')
+
+        productSearch.classList.add(
+            'border-red-500',
+            'focus:border-red-500',
+            'focus:ring-red-500'
+        )
+    }
+})
+
+// Hilangkan error saat user mengetik lagi
+productSearch.addEventListener('input', function () {
+    productError.classList.add('hidden')
+    productSearch.classList.remove(
+        'border-red-500',
+        'focus:border-red-500',
+        'focus:ring-red-500'
+    )
+})
+</script>
+
 @endsection

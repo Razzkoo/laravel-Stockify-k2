@@ -30,6 +30,10 @@ class SupplierController extends Controller
             'address' => 'nullable|string',
             'phone'   => 'nullable|string|max:20',
             'email'   => 'nullable|email|unique:suppliers,email',
+        ],[
+            'name.required'  => 'Nama supplier wajib diisi',
+            'email.email'    => 'Format email tidak valid',
+            'email.unique'   => 'Email supplier sudah terdaftar',
         ]);
         $supplier = Supplier::create($validated);
 
@@ -55,6 +59,10 @@ class SupplierController extends Controller
             'address' => 'nullable|string',
             'phone'   => 'nullable|string|max:20',
             'email'   => 'nullable|email|unique:suppliers,email,' . $supplier->id,
+        ],[
+            'name.required'  => 'Nama supplier wajib diisi',
+            'email.email'    => 'Format email tidak valid',
+            'email.unique'   => 'Email supplier sudah terdaftar',
         ]);
         logActivity(
         'Perbarui Supplier',

@@ -22,8 +22,11 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'        => ['required', 'string', 'max:255'],
+            'name'        => ['required', 'string', 'max:255','unique:categories,name'],
             'description' => ['nullable', 'string'],
+        ],[
+            'name.unique' => 'Kategori sudah ada',
+            'name.required' => 'Nama kategori wajib diisi',
         ]);
 
         Category::create($validated);

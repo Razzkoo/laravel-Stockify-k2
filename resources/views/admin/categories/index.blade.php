@@ -175,7 +175,6 @@ function openDetailCategoryModal(button) {
     document.getElementById('modalCategoryName').textContent = row.dataset.name
     document.getElementById('modalCategoryDescription').textContent = row.dataset.description
     document.getElementById('modalCategoryProducts').textContent = row.dataset.products
-    document.getElementById('modalCategoryStatus').textContent = row.dataset.status
     document.getElementById('modalCategoryCreated').textContent = row.dataset.created
 }
 

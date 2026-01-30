@@ -19,8 +19,8 @@ class UserRequestController extends Controller
     //disetujui
     public function approve(Request $request, UserRequest $userRequest)
     {
-        if ($userRequest->status !== 'pending') {
-            return back()->with('error', 'Permintaan sudah diproses.');
+        if ($userRequest->status === 'approved') {
+            return back()->with('error', 'User sudah disetujui.');
         }
 
         $request->validate([
@@ -28,12 +28,17 @@ class UserRequestController extends Controller
         ]);
 
         DB::transaction(function () use ($userRequest, $request) {
-            $user = User::create([
-                'name'     => $userRequest->name,
-                'email'    => $userRequest->email,
-                'password' => $userRequest->password, 
-                'role'     => $request->role,
-            ]);
+
+            $user = User::where('email', $userRequest->email)->first();
+
+            if (!$user) {
+                $user = User::create([
+                    'name'     => $userRequest->name,
+                    'email'    => $userRequest->email,
+                    'password' => $userRequest->password,
+                    'role'     => $request->role,
+                ]);
+            }
 
             $userRequest->update([
                 'user_id'        => $user->id,
@@ -42,14 +47,16 @@ class UserRequestController extends Controller
                 'note'           => null,
             ]);
         });
-        logActivity(
-                'Setujui Pengguna',
-                'Menyetujui permintaan pengguna: ' . $userRequest->name .
-                ' | Role: ' . $request->role
-            );
 
-        return back()->with('success', 'User berhasil disetujui & dibuat.');
+        logActivity(
+            'Setujui Pengguna',
+            'Menyetujui permintaan pengguna: ' . $userRequest->name .
+            ' | Role: ' . $request->role
+        );
+
+        return back()->with('success', 'User berhasil disetujui.');
     }
+
 
     //ditolak
     public function reject(Request $request, UserRequest $userRequest)

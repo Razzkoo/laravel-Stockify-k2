@@ -41,13 +41,20 @@
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Email
                 </label>
+
                 <input type="email"
-                       name="email"
-                       placeholder="supplier@email.com"
-                       class="block w-full p-2.5 text-sm text-gray-900
-                              border border-gray-300 rounded-lg
-                              focus:ring-indigo-500 focus:border-indigo-500
-                              dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    name="email"
+                    value="{{ old('email') }}"
+                    placeholder="supplier@email.com"
+                    class="block w-full p-2.5 text-sm rounded-lg
+                        {{ $errors->has('email')
+                            ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
+                            : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500' }}
+                        text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+
+                @error('email')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
             <div>
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

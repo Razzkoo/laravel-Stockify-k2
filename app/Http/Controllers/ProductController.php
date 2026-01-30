@@ -73,7 +73,7 @@ class ProductController extends Controller
         $validated = $request->validate([
             'category_id'     => ['required', 'exists:categories,id'],
             'supplier_id'     => ['required', 'exists:suppliers,id'],
-            'name'            => ['required', 'string', 'max:255'],
+            'name'            => ['required', 'string', 'max:255','unique:products,name'],
             'sku'             => ['required', 'string', 'max:100', 'unique:products,sku'],
             'description'     => ['nullable', 'string'],
             'purchase_price'  => ['required', 'numeric', 'min:0'],
@@ -83,6 +83,12 @@ class ProductController extends Controller
             'attributes'         => ['nullable', 'array'],
             'attributes.*.name'  => ['nullable', 'string', 'max:100'],
             'attributes.*.value' => ['nullable', 'string', 'max:255'],
+        ],[
+            'name.required' => 'Nama produk wajib diisi',
+            'name.unique'   => 'Produk sudah ada',
+            'sku.required' => 'SKU wajib diisi',
+            'sku.unique'   => 'SKU sudah digunakan',
+
         ]);
 
         if (!$request->filled('adjusted_image')) {
@@ -141,7 +147,9 @@ class ProductController extends Controller
         $validated = $request->validate([
             'category_id'     => ['required', 'exists:categories,id'],
             'supplier_id'     => ['required', 'exists:suppliers,id'],
-            'name'            => ['required', 'string', 'max:255'],
+            'name'            => ['required','string','max:255',
+                Rule::unique('products', 'name')->ignore($product->id),
+            ],
             'sku'             => ['required','string','max:100',
                 Rule::unique('products', 'sku')->ignore($product->id),
             ],
@@ -153,6 +161,11 @@ class ProductController extends Controller
             'attributes'         => ['nullable', 'array'],
             'attributes.*.name'  => ['nullable', 'string', 'max:100'],
             'attributes.*.value' => ['nullable', 'string', 'max:255'],
+        ],[
+            'name.required' => 'Nama produk wajib diisi',
+            'name.unique'   => 'Nama sudah ada',
+            'sku.required' => 'SKU wajib diisi',
+            'sku.unique'   => 'SKU sudah digunakan',
         ]);
 
         $productData = collect($validated)->except('attributes')->toArray();
