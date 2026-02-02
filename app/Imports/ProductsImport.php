@@ -29,8 +29,8 @@ class ProductsImport implements ToModel, WithHeadingRow, WithValidation
             'supplier_id'     => $supplier->id,
             'purchase_price'  => $row['harga_beli'],
             'selling_price'   => $row['harga_jual'],
-            'current_stock'   => 0, // WAJIB
-            'minimum_stock'   => $row['minimum_stok'],
+            'current_stock'   => 0,
+            'minimum_stock'   => $row['minimum_stok'] ?? 0,
             'description'     => $row['deskripsi'] ?? null,
         ]);
     }
@@ -42,9 +42,9 @@ class ProductsImport implements ToModel, WithHeadingRow, WithValidation
             '*.nama_produk' => ['required', 'string'],
             '*.kategori' => ['required', 'string'],
             '*.supplier' => ['required', 'string'],
-            '*.harga_beli' => ['required', 'numeric'],
-            '*.harga_jual' => ['required', 'numeric'],
-            '*.minimum_stok' => ['required', 'integer'],
+            '*.harga_beli' => ['required', 'numeric', 'min:0'],
+            '*.harga_jual' => ['required', 'numeric', 'min:0'],
+            '*.minimum_stok' => ['nullable', 'integer', 'min:0'],
         ];
     }
 }

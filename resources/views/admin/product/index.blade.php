@@ -104,7 +104,7 @@
                 <img
                     src="{{ $product->image
                             ? asset('storage/'.$product->image)
-                            : 'https://via.placeholder.com/400x400' }}"
+                            : asset('images/default product.png') }}"
                     class="aspect-square w-full object-cover">
                 <div class="p-4 space-y-3">
                     <div class="flex justify-between items-center">
@@ -239,10 +239,9 @@
                     <img
                         src="{{ $product->image
                             ? asset('storage/' . $product->image)
-                            : 'https://via.placeholder.com/600x600' }}"
+                            : asset('images/default product.png') }}"
                         alt="{{ $product->name }}"
-                        class="w-full h-full object-cover"
-                    >
+                        class="w-full h-full object-cover">
                 </div>
                 <div class="px-6 py-5 space-y-5 text-sm">
 

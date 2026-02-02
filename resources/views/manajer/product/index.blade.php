@@ -42,7 +42,7 @@
                 <img
                     src="{{ $product->image
                             ? asset('storage/'.$product->image)
-                            : 'https://via.placeholder.com/400x400' }}"
+                            : asset('images/default product.png') }}"
                     class="aspect-square w-full object-cover">
 
                 <div class="p-4 space-y-3">
@@ -144,7 +144,7 @@
                     <img
                         src="{{ $product->image
                             ? asset('storage/'.$product->image)
-                            : 'https://via.placeholder.com/600x600' }}"
+                            : asset('images/default product.png') }}"
                         class="w-full h-full object-cover"
                         alt="{{ $product->name }}">
                 </div>
